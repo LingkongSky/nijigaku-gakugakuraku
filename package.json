@@ -1,0 +1,19 @@
+{
+  "name": "nijigaku-gakugakuraku",
+  "version": "1.0.0",
+  "main": "js/main.js",
+  "repository": "git@github.com:LingkongSky/nijigaku-gakugakuraku.git",
+  "author": "LingkongSky",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^5.2.0",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
