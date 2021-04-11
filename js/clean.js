@@ -1,523 +1,428 @@
-//主要清除函数
+// 主要清除函数
 function clean() {
+  // 获取遍历元素基础信息
+  var arr = $(".block");
+  var arr_length = arr.length;
+  var $cleanX = [];
+  var $cleanY = [];
 
-//获取遍历元素基础信息
-var arr = $(".block");
-var arr_length = arr.length;
-var $cleanX = [];
-var $cleanY = [];
+  for (var i0 = 0; i0 < arr_length; i0++) {
+    var $arr = $(arr[i0]);
+    var numX = 1;
+    var numY = 1;
+    var $element_totalX = [];
+    var $element_totalY = [];
+    var x0 = $arr.data("x");
+    var y0 = $arr.data("y");
+    var type0 = $arr.data("type");
+    var special0 = $arr.data("special");
 
-    for (var i0 = 0; i0 < arr_length; i0++) {
+    var el = "#" + $arr.attr("id");
 
-var $arr = $(arr[i0]);       
-var numX = 1;
-var numY = 1;
-var $element_totalX = [];
-var $element_totalY = [];
-var x0 = $arr.data("x");
-var y0 = $arr.data("y");
-var type0 = $arr.data("type");
-var special0 = $arr.data("special");
+    if (y0 < 1) {
+      continue;
+    }
 
-var el = "#" + $arr.attr("id");
+    // X正半轴遍历
+    if ($arr.hasClass("cleanX") != true) {
+      var times = line - x0 + 1;
 
+      for (var i = 1; i < times; i++) {
+        var $element =
+          "#" +
+          $(".block[data-x=" + (x0 + i) + "][data-y=" + y0 + "]").attr("id");
 
+        if ($($element).data("type") == type0) {
+          $element_totalX.push($element);
 
-if(y0 < 1){
-continue;
-}
-
-//X正半轴遍历
-if( $arr.hasClass("cleanX") != true){ 
-var times= (line - x0 + 1);
-
-   for (var i = 1;i < times; i++){
-
-var $element = "#" + $(".block[data-x=" + (x0+ i) + "][data-y=" + y0 + "]").attr("id");
-
-if( $($element).data("type") == type0){
-
-$element_totalX.push($element);
-
-numX = ++numX;
-
-
-}else{break;}
-
-
-}
-
-       }//if
-
-
-//Y正半轴遍历
-
-if ( $arr.hasClass("cleanY") != true){
-
-var times=(column-y0+1)
-
-   for (var i = 1;i < times; i++){
-
-var $element = "#" + $(".block[data-x=" + x0 + "][data-y=" + (y0 + i)+ "]").attr("id");
-
-if( $($element).data("type") == type0){
-
-$element_totalY.push($element);
-
-numY = ++numY;
-
-}else{break;}
-
-}
-     }//if
-
-
-//添加方块到消除数组中
-if(numX > 2){
-
-$arr.addClass("clean cleanX");
-
-$cleanX.push(el);
-
-var $element_totalX_length = $element_totalX.length;
-
-for(i1=0;i1 < $element_totalX_length;i1++){
-
-$($element_totalX[i1]).addClass("clean cleanX");
-
-$cleanX.push($element_totalX[i1]);
-
+          numX = ++numX;
+        } else {
+          break;
         }
+      }
+    } //if
 
+    // Y正半轴遍历
 
-window['score' + type0 ]= eval( 'score' + type0 ) + numX;
+    if ($arr.hasClass("cleanY") != true) {
+      var times = column - y0 + 1;
 
-//特殊值检测
-/*
-if( special0 !=  0){
-eval( "special" + special0 + "($arr)");
-}
-*/
+      for (var i = 1; i < times; i++) {
+        var $element =
+          "#" +
+          $(".block[data-x=" + x0 + "][data-y=" + (y0 + i) + "]").attr("id");
 
-//eval( "skill" + type0 + "(numX,$cleanX)");
+        if ($($element).data("type") == type0) {
+          $element_totalY.push($element);
 
+          numY = ++numY;
+        } else {
+          break;
+        }
+      }
+    } //if
 
+    // 添加方块到消除数组中
+    if (numX > 2) {
+      $arr.addClass("clean cleanX");
 
-score = score + numX*(numX-1)*50*clean_times;
+      $cleanX.push(el);
 
-clean_times = clean_times + 0.5;
-      
+      var $element_totalX_length = $element_totalX.length;
 
-}
+      for (i1 = 0; i1 < $element_totalX_length; i1++) {
+        $($element_totalX[i1]).addClass("clean cleanX");
 
-
-if(numY > 2){
-
-$arr.addClass("clean cleanY");
-
-$cleanY.push(el);
-
-var $element_totalY_length = $element_totalY.length;
-
-for(i1=0;i1 < $element_totalY_length;i1++){
-
-$cleanY.push($element_totalY[i1]);
-
-
-$($element_totalY[i1]).addClass("clean cleanY");
-
-               }
-
-
-window['score' + type0 ]= eval( 'score' + type0 ) + numY;
-
-//特殊值检测
-/*
-if( special0 !=  0){
-eval( "special" + special0 + "($arr)");
-}
-*/
-
-//eval( "skill" + type0 + "(numY,$cleanY)");
-
-score = score + numY*(numY-1)*50*clean_times;
-
-clean_times = clean_times + 0.5;
-
-}
-
-    }//for循环
-
-
-
-//动画部分
-
-//var Clean = Array.from(new Set( $cleanX.concat($cleanY) ));
-
-//方块生成补齐
-var $clean = $(".clean");
-
-spawn1($clean);
-
-$clean.css({
-"transform" : "scale(0)"
-});
-
-setTimeout(function(){
-//删除对应元素
-$clean.remove();
-title2.score=score;
-
-set_score(true);
-
-scan();
-
-},310);  
-
-//阻止点击事件
-arr.css({
-"pointer-events": "none"
-});
-
-pointer = false;
-
-}//总function
-
-
-
-
-
-////方块补齐
-function scan(){
-
-var arr = $(".block");
-var arr_length = arr.length;
-
-
-for (var i0 = 0; i0 < arr_length; i0++) {
-      var mode = false;
-      var x0 = $(arr[i0]).data("x");
-        var y0 = $(arr[i0]).data("y");
-
-
-while(y0 < column){
-
-var $element = $(".block[data-x=" + x0 + "][data-y=" + (y0+1) + "]").attr("id");
-
-
-if($element == undefined){
-
-var y0 = ++y0;
-
-$(arr[i0]).attr({
-"data-y": y0
-});
-
-$(arr[i0]).data("y",y0);
-
-var mode = true;
-
-    }else{
-break;
-   }
-
-}
-
-
-if(mode){
-$(arr[i0]).css({
-"top":  1/column * (y0-1) * $play_area.height() + "px"
-});
- }
-   }//循环
-
-
-for (var i0 = 0; i0 < arr_length; i0++) {
-      var mode = false;
-      var x0 = $(arr[i0]).data("x");
-      var y0 = $(arr[i0]).data("y");
-
-
-while(y0 < column){
-
-var $element = $(".block[data-x=" + x0 + "][data-y=" + (y0+1) + "]").attr("id");
-
-if($element == undefined){
-
-var y0 = ++y0;
-
-$(arr[i0]).attr({
-"data-y": y0
-});
-
-$(arr[i0]).data("y",y0);
-
-var mode = true;
-
-    }else{
-break;
-   }
-
-}
-
-if (mode){
-$(arr[i0]).css({
-"top":  1/column * (y0-1) * $play_area.height() + "px"
-});
+        $cleanX.push($element_totalX[i1]);
       }
 
-   }//循环
+      window["score" + type0] = eval("score" + type0) + numX;
 
+      //特殊值检测
+      // if (special0 != 0) {
+      //   eval( "special" + special0 + "($arr)");
+      // }
 
+      //eval( "skill" + type0 + "(numX,$cleanX)");
 
-//触发精简版clean函数
-var results=found();
+      score = score + numX * (numX - 1) * 50 * clean_times;
 
-if(results){
+      clean_times = clean_times + 0.5;
+    }
 
-setTimeout (function(){
+    if (numY > 2) {
+      $arr.addClass("clean cleanY");
 
-clean();
-},300);
+      $cleanY.push(el);
 
-}else{
-clean_times = 1;
-setTimeout(function(){
-arr.css({
-"pointer-events": "auto"
-});
+      var $element_totalY_length = $element_totalY.length;
 
-pointer = true;
-if(time == 0){over();}
+      for (i1 = 0; i1 < $element_totalY_length; i1++) {
+        $cleanY.push($element_totalY[i1]);
 
-   },310);
-   }
+        $($element_totalY[i1]).addClass("clean cleanY");
+      }
 
-}//总function
+      window["score" + type0] = eval("score" + type0) + numY;
 
+      //特殊值检测
+      // if (special0 != 0) {
+      //   eval( "special" + special0 + "($arr)");
+      // }
 
+      //eval( "skill" + type0 + "(numY,$cleanY)");
 
+      score = score + numY * (numY - 1) * 50 * clean_times;
 
+      clean_times = clean_times + 0.5;
+    }
+  } //for循环
 
-function scan1(){
+  //动画部分
 
-var $arr = $(".block[data-y=-5]");
+  //var Clean = Array.from(new Set( $cleanX.concat($cleanY) ));
 
-var $arr_length = $arr.length;
+  //方块生成补齐
+  var $clean = $(".clean");
 
+  spawn1($clean);
 
-for(var i=0;i < $arr_length;i++){
+  $clean.css({
+    transform: "scale(0)",
+  });
 
-var arr1 = $($arr[i]);
-//var $bid = $("#block" + id_number );
+  setTimeout(function () {
+    //删除对应元素
+    $clean.remove();
+    title2.score = score;
 
-        var x0 = arr1.data("x");
-        var y0 = arr1.data("y");
+    set_score(true);
 
+    scan();
+  }, 310);
 
-while(y0 < column){
+  //阻止点击事件
+  arr.css({
+    "pointer-events": "none",
+  });
 
-var $element = $(".block[data-x=" + x0 + "][data-y=" + (y0+1) + "]").attr("id");
+  pointer = false;
+} //总function
 
+////方块补齐
+function scan() {
+  var arr = $(".block");
+  var arr_length = arr.length;
 
-if($element == undefined){
+  for (var i0 = 0; i0 < arr_length; i0++) {
+    var mode = false;
+    var x0 = $(arr[i0]).data("x");
+    var y0 = $(arr[i0]).data("y");
 
-var y0 = ++y0;
+    while (y0 < column) {
+      var $element = $(
+        ".block[data-x=" + x0 + "][data-y=" + (y0 + 1) + "]"
+      ).attr("id");
 
-arr1.attr({
-"data-y": y0
-});
+      if ($element == undefined) {
+        var y0 = ++y0;
 
-arr1.data("y",y0);
+        $(arr[i0]).attr({
+          "data-y": y0,
+        });
 
-    }else{
-break;
-}
+        $(arr[i0]).data("y", y0);
 
-}
+        var mode = true;
+      } else {
+        break;
+      }
+    }
 
+    if (mode) {
+      $(arr[i0]).css({
+        top: (1 / column) * (y0 - 1) * $play_area.height() + "px",
+      });
+    }
+  } //循环
 
-var y0 = arr1.data("y");
+  for (var i0 = 0; i0 < arr_length; i0++) {
+    var mode = false;
+    var x0 = $(arr[i0]).data("x");
+    var y0 = $(arr[i0]).data("y");
 
-while(y0 < column){
+    while (y0 < column) {
+      var $element = $(
+        ".block[data-x=" + x0 + "][data-y=" + (y0 + 1) + "]"
+      ).attr("id");
 
-var $element = $(".block[data-x=" + x0 + "][data-y=" + (y0+1) + "]").attr("id");
+      if ($element == undefined) {
+        var y0 = ++y0;
 
+        $(arr[i0]).attr({
+          "data-y": y0,
+        });
 
-if($element == undefined){
+        $(arr[i0]).data("y", y0);
 
-var y0 = ++y0;
+        var mode = true;
+      } else {
+        break;
+      }
+    }
 
-arr1.attr({
-"data-y": y0
-});
+    if (mode) {
+      $(arr[i0]).css({
+        top: (1 / column) * (y0 - 1) * $play_area.height() + "px",
+      });
+    }
+  } //循环
 
-arr1.data("y",y0);
+  //触发精简版clean函数
+  var results = found();
 
+  if (results) {
+    setTimeout(function () {
+      clean();
+    }, 300);
+  } else {
+    clean_times = 1;
+    setTimeout(function () {
+      arr.css({
+        "pointer-events": "auto",
+      });
 
-    }else{
-break;
+      pointer = true;
+      if (time == 0) {
+        over();
+      }
+    }, 310);
   }
+} //总function
 
-   }
+function scan1() {
+  var $arr = $(".block[data-y=-5]");
 
-         }//for
+  var $arr_length = $arr.length;
 
+  for (var i = 0; i < $arr_length; i++) {
+    var arr1 = $($arr[i]);
+    //var $bid = $("#block" + id_number );
 
+    var x0 = arr1.data("x");
+    var y0 = arr1.data("y");
 
-}//总function
+    while (y0 < column) {
+      var $element = $(
+        ".block[data-x=" + x0 + "][data-y=" + (y0 + 1) + "]"
+      ).attr("id");
 
+      if ($element == undefined) {
+        var y0 = ++y0;
 
+        arr1.attr({
+          "data-y": y0,
+        });
 
+        arr1.data("y", y0);
+      } else {
+        break;
+      }
+    }
 
+    var y0 = arr1.data("y");
+
+    while (y0 < column) {
+      var $element = $(
+        ".block[data-x=" + x0 + "][data-y=" + (y0 + 1) + "]"
+      ).attr("id");
+
+      if ($element == undefined) {
+        var y0 = ++y0;
+
+        arr1.attr({
+          "data-y": y0,
+        });
+
+        arr1.data("y", y0);
+      } else {
+        break;
+      }
+    }
+  } //for
+} //总function
 
 //////开局去除三消
 
-function clean1(){
+function clean1() {
+  //获取遍历元素基础信息
+  var arr = $(".block");
+  var arr_length = arr.length;
+  var $cleanX = [];
+  var $cleanY = [];
 
-//获取遍历元素基础信息
-var arr = $(".block");
-var arr_length = arr.length;
-var $cleanX = [];
-var $cleanY = [];
+  for (var i0 = 0; i0 < arr_length; i0++) {
+    var $arr = $(arr[i0]);
+    var numX = 1;
+    var numY = 1;
+    var $element_totalX = [];
+    var $element_totalY = [];
 
-    for (var i0 = 0; i0 < arr_length; i0++) {
+    var x0 = $arr.data("x");
+    var y0 = $arr.data("y");
+    var type0 = $arr.data("type");
 
-var $arr = $(arr[i0]);       
-var numX = 1;
-var numY = 1;
-var $element_totalX = [];
-var $element_totalY = [];
+    var el = "#" + $arr.attr("id");
 
-        var x0 = $arr.data("x");
-        var y0 = $arr.data("y");
-        var type0 = $arr.data("type");
+    if (y0 <= 0) {
+      continue;
+    }
 
-var el = "#" + $arr.attr("id");
+    //X正半轴遍历
+    //if( x0 < (column -2) ){
+    var times = line - x0 + 1;
+    for (var i = 1; i < times; i++) {
+      var $element =
+        "#" +
+        $(".block[data-x=" + (x0 + i) + "][data-y=" + y0 + "]").attr("id");
 
+      var el_type = $($element).data("type");
 
-if(y0 <= 0){
-continue;
-}
+      if (el_type == type0) {
+        $element_totalX.push($element);
 
-//X正半轴遍历
-//if( x0 < (column -2) ){ 
-var times= (line - x0 + 1);
-   for (var i = 1;i < times; i++){
+        numX = ++numX;
+      } else {
+        break;
+      }
+    }
 
-var $element = "#" + $(".block[data-x=" + (x0+ i) + "][data-y=" + y0 + "]").attr("id");
+    //Y正半轴遍历
+    var times = column - y0 + 1;
 
-var el_type = $($element).data("type");
+    for (var i = 1; i < times; i++) {
+      var $element =
+        "#" +
+        $(".block[data-x=" + x0 + "][data-y=" + (y0 + i) + "]").attr("id");
 
-if(el_type == type0){
+      var el_type = $($element).data("type");
 
-$element_totalX.push($element);
+      if (el_type == type0) {
+        $element_totalY.push($element);
 
-numX = ++numX;
+        numY = ++numY;
+      } else {
+        break;
+      }
+    }
 
+    if (numX > 2) {
+      $cleanX.push(el);
 
-}else{break;}
+      var $element_totalX_length = $element_totalX.length;
 
+      for (i1 = 0; i1 < $element_totalX_length; i1++) {
+        $cleanX.push($element_totalX[i1]);
+      }
+    }
 
-}
+    if (numY > 2) {
+      $cleanY.push(el);
+      var $element_totalY_length = $element_totalY.length;
 
+      for (i1 = 0; i1 < $element_totalY_length; i1++) {
+        $cleanY.push($element_totalY[i1]);
+      }
+    }
+  } //for循环
 
+  $cleanX_length = $cleanX.length;
 
-//Y正半轴遍历
-var times=(column-y0+1)
+  for (i2 = 1; i2 < $cleanX_length; i2 = i2 + 2) {
+    var type1 = $($cleanX[i2]).data("type");
 
-   for (var i = 1;i < times; i++){
+    if (type1 == block_types) {
+      var type1 = 1;
+    } else {
+      var type1 = type1 + 1;
+    }
 
-var $element = "#" + $(".block[data-x=" + x0 + "][data-y=" + (y0 + i)+ "]").attr("id");
+    $($cleanX[i2]).data("type", type1);
 
-var el_type = $($element).data("type");
+    $($cleanX[i2]).attr({
+      "data-type": type1,
+      src: "textures/" + type1 + ".png",
+    });
+  }
 
-if(el_type == type0){
+  $cleanY_length = $cleanY.length;
 
-$element_totalY.push($element);
+  for (i2 = 1; i2 < $cleanY_length; i2 = i2 + 2) {
+    var type1 = $($cleanY[i2]).data("type");
 
-numY = ++numY;
+    if (type1 == block_types) {
+      var type1 = 1;
+    } else {
+      var type1 = type1 + 1;
+    }
 
-}else{break;}
+    $($cleanY[i2]).data("type", type1);
 
-}
+    $($cleanY[i2]).attr({
+      "data-type": type1,
+      src: "textures/" + type1 + ".png",
+    });
+  }
 
-if(numX > 2){
-
-$cleanX.push(el);
-
-var $element_totalX_length = $element_totalX.length;
-
-for(i1=0;i1 < $element_totalX_length;i1++){
-$cleanX.push($element_totalX[i1]);}
-}
-
-if(numY > 2){
-
-$cleanY.push(el);
-var $element_totalY_length = $element_totalY.length;
-
-for(i1=0;i1 < $element_totalY_length;i1++){
-$cleanY.push($element_totalY[i1]);}
-}
-
-    }//for循环
-
-$cleanX_length=$cleanX.length;
-
-for(i2=1;i2 < $cleanX_length;i2=i2+2){
-
-var type1 = $($cleanX[i2]).data('type');
-
-
-if (type1 == block_types){
-var type1=1;
-}else{
-var type1=type1+1;
-}
-
-$($cleanX[i2]).data("type",type1);
-
-$($cleanX[i2]).attr({
-"data-type": type1,
-"src": "textures/" + type1 + ".png"
-});
-
-           }
-
-$cleanY_length=$cleanY.length;
-
-for(i2=1;i2 < $cleanY_length;i2=i2+2){
-
-var type1 = $($cleanY[i2]).data("type");
-
-if (type1 == block_types){
-var type1=1;
-}else{
-var type1=type1+1;
-}
-
-$($cleanY[i2]).data("type",type1);
-
-$($cleanY[i2]).attr({
-"data-type": type1,
-"src": "textures/" + type1 + ".png"
-});
-
-     }
-
-
-var results=found();
-if(results){clean1();}else{
-/*
+  var results = found();
+  if (results) {
+    clean1();
+  } else {
+    /*
 $(".block").css({
 "opacity": "1"
 });*/
+  }
+} //总function
 
-
-}
-
-}//总function
-
-
-var error=error+" clean";
+var error = error + " clean";

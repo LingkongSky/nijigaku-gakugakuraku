@@ -35,12 +35,12 @@ error请在index.html取消注释，进入页面后会弹出一个消息框，�
 
 //方块类型对应关系 艾雪霞果彼
 
-var error="";//调试用参数
-var block_types=5;//方块类型，目前上限为五
-var score=0;//分数
-var id_number=0;//方块id
-var clean_times = 1;//基础清除分数倍率
-var Time = 90;//游戏时间
+var error = ""; //调试用参数
+var block_types = 5; //方块类型，目前上限为五
+var score = 0; //分数
+var id_number = 0; //方块id
+var clean_times = 1; //基础清除分数倍率
+var Time = 90; //游戏时间
 var background_music = $("#background_music")[0];
 var $start = $("#start");
 var $upload = $("#upload");
@@ -59,7 +59,6 @@ var score8 = 0;
 var score9 = 0;
 var score10 = 0;
 
-
 $upload.addClass("hide");
 
 //页面适配
@@ -68,134 +67,135 @@ var page_width = document.body.clientWidth;
 
 var page_height = document.body.clientHeight;
 
-if(page_height > page_width){
-var screen_type = "mobile";}
-else{var screen_type = "PC";}
-
-
-//页面自适配
-window.onresize = function(){
-
-if(screen_type == "mobile" && document.body.clientWidth > document.body.clientHeight){
-window.location.reload();}
-
-if(screen_type == "PC" && document.body.clientWidth < document.body.clientHeight){
-window.location.reload();}
-
+if (page_height > page_width) {
+  var screen_type = "mobile";
+} else {
+  var screen_type = "PC";
 }
 
-$(window).resize(function(){
+//页面自适配
+window.onresize = function () {
+  if (
+    screen_type == "mobile" &&
+    document.body.clientWidth > document.body.clientHeight
+  ) {
+    window.location.reload();
+  }
 
-if(screen_type == "mobile" && document.body.clientWidth > document.body.clientHeight){
-window.location.reload();}
+  if (
+    screen_type == "PC" &&
+    document.body.clientWidth < document.body.clientHeight
+  ) {
+    window.location.reload();
+  }
+};
 
-if(screen_type == "PC" && document.body.clientWidth < document.body.clientHeight){
-window.location.reload();}
+$(window).resize(function () {
+  if (
+    screen_type == "mobile" &&
+    document.body.clientWidth > document.body.clientHeight
+  ) {
+    window.location.reload();
+  }
 
+  if (
+    screen_type == "PC" &&
+    document.body.clientWidth < document.body.clientHeight
+  ) {
+    window.location.reload();
+  }
 });
 
-
 var title1 = new Vue({
-   el:'#title1',   
-   data:{  
- msg: 'Fightだよ'
-        }
-             });
-
+  el: "#title1",
+  data: {
+    msg: "Fightだよ",
+  },
+});
 
 var c_score = new Vue({
-   el:'#c_score',   
-   data:{  
- data1: 0,
- data2: 0,
- data3: 0,
- data4: 0,
- data5: 0,
- data6: 0,
- data7: 0,
- data8: 0,
- data9: 0,
- data10: 0
-        }
-             });
-
+  el: "#c_score",
+  data: {
+    data1: 0,
+    data2: 0,
+    data3: 0,
+    data4: 0,
+    data5: 0,
+    data6: 0,
+    data7: 0,
+    data8: 0,
+    data9: 0,
+    data10: 0,
+  },
+});
 
 var $play_area = $("#play_area");
 var $play_area1 = $("#play_area1");
-
 
 var $bottom = $("#bottom");
 var $title1 = $("#title1");
 var $title2 = $("#title2");
 
+if (screen_type == "mobile") {
+  $bottom.css({
+    transform: "translateY(-100%)",
+    top: "100%",
+    left: "0%",
+    width: "100%",
+    height: "auto",
+  });
 
-if(screen_type == "mobile"){
+  $title1.css({
+    top: "10%",
+    left: "50%",
+    "font-size": page_width * 0.08 + "px",
+  });
 
-$bottom.css({
-"transform": "translateY(-100%)",
-"top" : "100%",
-"left" : "0%",
-"width": "100%",
-"height":  "auto"
-});
+  $title2.css({
+    top: "20%",
+    left: "50%",
+    "font-size": page_width * 0.05 + "px",
+  });
 
-$title1.css({
-"top" : "10%",
-"left" : "50%",
-"font-size": page_width * 0.08 + "px"
-});
+  $play_area.css({
+    height: page_height * 0.7 + "px",
+    width: page_height * 0.7 + "px",
+  });
 
-$title2.css({
-"top" : "20%",
-"left" : "50%",
-"font-size": page_width * 0.05 + "px"
-});
+  $(".input").css({
+    height: "1%",
+    width: "5%",
+  });
+} else {
+  $bottom.css({
+    transform: "translateY(-100%) translateX(-50%)",
+    top: "100%",
+    left: "50%",
+    width: page_height * 0.5 + 20 + "px",
+    height: "auto",
+  });
 
+  $title1.css({
+    top: "2%",
+    left: "50%",
+    "font-size": page_height * 0.08 + "px",
+  });
 
-$play_area.css({
-"height": page_height * 0.7 + "px",
-"width": page_height * 0.7 + "px"
-});
+  $title2.css({
+    top: "13%",
+    left: "50%",
+    "font-size": page_height * 0.04 + "px",
+  });
 
+  $play_area.css({
+    height: page_height * 0.5 + "px",
+    width: page_height * 0.5 + "px",
+  });
 
-$(".input").css({
-"height": "1%",
-"width": "5%"
-});
-
-}else{
-
-$bottom.css({
-"transform": "translateY(-100%) translateX(-50%)",
-"top" : "100%",
-"left" : "50%",
-"width": page_height * 0.5 + 20 + "px",
-"height":  "auto"
-});
-
-
-$title1.css({
-"top" : "2%",
-"left" : "50%",
-"font-size": page_height * 0.08 + "px"
-});
-
-$title2.css({
-"top" : "13%",
-"left" : "50%",
-"font-size": page_height * 0.04 + "px"
-});
-
-$play_area.css({
-"height": page_height * 0.5 + "px",
-"width": page_height * 0.5 + "px"
-});
-
-$(".input").css({
-"height": "1%",
-"width": "3%"
-});
-
+  $(".input").css({
+    height: "1%",
+    width: "3%",
+  });
 }
 
-var error= error + "main";
+var error = error + "main";
