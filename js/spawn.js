@@ -1,227 +1,277 @@
 
-// 行列数
+//行列数
 var line = 9;
 var column = 9;
 var numbers = line * column;
 
+
 var $vue_area = new Vue({
-    el: '#play_area1',
-    data: {
-        tag: ''
-    }
+     el: "#play_area1",
+     data: {
+          tag: ""
+     }
 });
 
 size();
 
+
 function size() {
-    if (line >= column) {
-        mode = true;
-    }
-    else {
-        mode = false;
-    }
+     if (line >= column) {
+          mode = true;
+     } else {
+          mode = false;
+     }
 
-    if (screen_type == 'mobile') {
 
-        // 游戏区域
-        if (mode) {
-            $play_area.css({
-                width: page_width * 0.7 + 'px',
-                height: page_width * 0.7 / line * column + 'px'
-            });
-        }
-        else {
+     if (screen_type == "mobile") {
 
-            $play_area.css({
-                height: page_width * 0.7 + 'px',
-                width: page_width * 0.7 / column * line + 'px'
-            });
-        }
-    }
-    else {
+          //游戏区域
+          if (mode) {
+               $play_area.css({
+                    "width": page_width * 0.7 + "px",
+                    "height": page_width * 0.7 / line * column + "px"
+               });
 
-        if (mode) {
-            $play_area.css({
-                width: page_height * 0.5 + 5 + 'px',
-                height: page_height * 0.5 / line * column + 5 + 'px'
-            });
-        }
-        else {
-            $play_area.css({
-                height: page_height * 0.5 + 5 + 'px',
-                width: page_height * 0.5 / column * line + 5 + 'px'
-            });
-        }
-    }
+          } else {
+
+               $play_area.css({
+                    "height": page_width * 0.7 + "px",
+                    "width": page_width * 0.7 / column * line + "px"
+               });
+
+          }
+
+     } else {
+
+          if (mode) {
+               $play_area.css({
+                    "width": page_height * 0.5 + 5 + "px",
+                    "height": page_height * 0.5 / line * column + 5 + "px"
+               });
+          } else {
+               $play_area.css({
+                    "height": page_height * 0.5 + 5 + "px",
+                    "width": page_height * 0.5 / column * line + 5 + "px"
+               });
+          }
+
+     }
+
 }
+
+
 
 /*生成结果模板: <img class="block" id="block1" style="height:100px;width:100px;top:100px;left:100px;" src="textures/1.png" data-x="0" data-y="0" data-type="1" data-special="0" @click="clicked($event)/>
 */
 
-// 方块生成
+//方块生成
 function spawn() {
 
-    size();
+     size();
 
-    // 方块大小
-    if (mode) {
+     //方块大小
+     if (mode) {
 
-        var block_heights = 100 / line * 0.01 * $play_area.width() + 'px';
-        var block_widths = 'auto';
-    }
-    else {
+          var block_heights = 100 / line * 0.01 * $play_area.width() + "px";
+          var block_widths = "auto";
 
-        var block_widths = 100 / column * 0.01 * $play_area.height() + 'px';
-        var block_heights = 'auto';
-    }
+     } else {
 
-    block_size = 'height:' + block_heights + ';' + 'width:' + block_widths + ';"';
+          var block_widths = 100 / column * 0.01 * $play_area.height() + "px";
+          var block_heights = "auto";
 
-    for (var i = column * -3; i < numbers; i++) {
+     }
 
-        id_number = id_number + 1;
-        // 方块id
-        var imgid = 'id=\'block' + id_number + '\' ';
+     block_size = 'height:' + block_heights + ';' + 'width:' + block_widths + ';"';
 
-        // 方块材质路径与类型
-        var img_random = Math.floor(Math.random() * block_types + 1);
 
-        var img_src = 'src="textures/' + img_random + '.png"';
 
-        // 方块坐标
-        var block_position = 'style="top: ' + 1 / column * (Math.floor(i / line)) * $play_area.height() + 'px; ' + 'left: ' + 1 / line * (Math.abs(i) % line) * $play_area.width() + 'px;opacity:0;';
+     for (var i = column * -3; i < numbers; i++) {
 
-        var block_data1 = 'data-x="' + (1 + Math.abs(i) % line) + '" ';
+          id_number = id_number + 1;
+          //方块id
+          var imgid = "id='block" + id_number + "' ";
 
-        if (i >= 0) {
-            var block_data2 = 'data-y="' + (1 + Math.floor(i / line)) + '" ';
-        }
-        else {
-            var block_data2 = 'data-y="' + Math.floor(i / line) + '" ';
-        }
+          //方块材质路径与类型
+          var img_random = Math.floor(Math.random() * block_types + 1);
 
-        var block_data3 = 'data-type="' + img_random + '"';
+          var img_src = 'src="textures/' + img_random + '.png"';
 
-        var block_data4 = 'data-special="0"';
 
-        var block_vue = '@click="clicked($event)"';
+          //方块坐标
+          var block_position = 'style="top: ' + 1 / column * (Math.floor(i / line)) * $play_area.height() + "px; " + "left: " + 1 / line * (Math.abs(i) % line) * $play_area.width() + "px;opacity:0;";
 
-        if (i > (column * -3)) {
 
-            var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + '>' + block_tag;
-        }
-        else {
+          var block_data1 = 'data-x="' + (1 + Math.abs(i) % line) + '" ';
 
-            var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + '>';
-        }
+          if (i >= 0) {
+               var block_data2 = 'data-y="' + (1 + Math.floor(i / line)) + '" ';
 
-        // 方块标签写入html
+          } else {
+               var block_data2 = 'data-y="' + Math.floor(i / line) + '" ';
+          }
 
-        // document.getElementById("play_area1").innerHTML =  block_tag;
 
-        // var img_id = "#block" + i;
+          var block_data3 = 'data-type="' + img_random + '"';
 
-    }
 
-    $vue_area.tag = block_tag;
-} // 总function
+          var block_data4 = 'data-special="0"';
+
+          var block_vue = '@click="clicked($event)"';
+
+
+          if (i > (column * -3)) {
+
+               var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + ">" + block_tag;
+
+          } else {
+
+               var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + ">";
+
+          }
+
+          //方块标签写入html
+
+          //document.getElementById("play_area1").innerHTML =  block_tag;
+
+          //var img_id = "#block" + i;
+
+     }
+
+
+     $vue_area.tag = block_tag;
+
+}//总function
+
+
 
 function spawn1(Clean) {
 
-    var arr = [];
+     var arr = [];
 
-    var Clean_length = Clean.length;
+     var Clean_length = Clean.length;
 
-    for (var i = 0; i < Clean_length; i++) {
 
-        var block_x = $(Clean[i]).data('x');
+     for (var i = 0; i < Clean_length; i++) {
 
-        id_number = id_number + 1;
+          var block_x = $(Clean[i]).data("x");
 
-        arr.push(id_number);
+          id_number = id_number + 1;
 
-        var imgid = 'id=\'block' + id_number + '\' ';
+          arr.push(id_number);
 
-        // 方块材质路径与类型
-        var img_random = Math.floor(Math.random() * block_types + 1);
+          var imgid = "id='block" + id_number + "' ";
 
-        var img_src = 'src="textures/' + img_random + '.png"';
+          //方块材质路径与类型
+          var img_random = Math.floor(Math.random() * block_types + 1);
 
-        // 方块坐标
-        var block_position = 'style="top: ' + 1 / column * -9 * $play_area.height() + 'px; ' + 'left: ' + 1 / line * (block_x - 1) * $play_area.width() + 'px;';
+          var img_src = 'src="textures/' + img_random + '.png"';
 
-        var block_data1 = 'data-x="' + block_x + '" ';
+          //方块坐标
+          var block_position = 'style="top: ' + 1 / column * -9 * $play_area.height() + "px; " + 'left: ' + 1 / line * (block_x - 1) * $play_area.width() + 'px;';
 
-        var block_data2 = 'data-y="' + '-5"';
 
-        var block_data3 = 'data-type="' + img_random + '"';
+          var block_data1 = 'data-x="' + block_x + '" ';
 
-        var block_data4 = 'data-special="0"';
+          var block_data2 = 'data-y="' + '-5"';
 
-        var block_vue = '@click="clicked($event)"';
+          var block_data3 = 'data-type="' + img_random + '"';
 
-        if (i > 0) {
+          var block_data4 = 'data-special="0"';
 
-            var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + '>' + block_tag;
-        }
-        else {
+          var block_vue = '@click="clicked($event)"';
 
-            var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + '>';
-        } // if
 
-    } // for
 
-    $('#play_area1').append(block_tag);
+          if (i > 0) {
 
-    scan1();
+               var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + ">" + block_tag;
 
-    var arr_length = arr.length;
+          } else {
 
-    for (var i = 0; i < arr_length; i++) {
-        new_set(arr[i]);
-    }
+               var block_tag = '<img class="block' + '" ' + img_src + imgid + block_position + block_size + block_data1 + block_data2 + block_data3 + block_data4 + block_vue + ">";
+
+          }//if
+
+     }//for
+
+
+     $("#play_area1").append(block_tag);
+
+
+     scan1();
+
+     var arr_length = arr.length;
+
+     for (var i = 0; i < arr_length; i++) {
+          new_set(arr[i]);
+     }
+
 }
+
+
+
+
 
 function new_set(id_number) {
 
-    var block = new Vue({
-        el: '#block' + id_number, // "#block0"
-        data: {},
-        methods: {
 
-            clicked(e) {
+     var block = new Vue({
+          el: "#block" + id_number,//"#block0"
+          data: {},
+          methods: {
 
-                var $el = $('#' +
-                    e.currentTarget.id);
+               clicked(e) {
 
-                if ($el.data('y') < 1) {
-                }
-                else {
+                    var $el = $("#" +
+                         e.currentTarget.id);
 
-                    if ($el.hasClass('check')) {
+                    if ($el.data("y") < 1) { } else {
 
-                        $el.css(border0(0));
+                         if ($el.hasClass("check")) {
 
-                        $el.removeClass('check');
-                    }
-                    else {
 
-                        $el.css(border0(5));
+                              $el.css(border0(0));
 
-                        $el.addClass('check');
+                              $el.removeClass('check')
 
-                        change1($el);
-                    }
-                } // if
+                         } else {
 
-            }
+                              $el.css(border0(5));
 
-        }
+                              $el.addClass('check');
 
-    });
+                              change1($el);
+                         }
+
+                    }//if
+
+               }
+
+          }
+
+     });
+
 }
 
-var error = error + ' spawn';
+var error = error + " spawn";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 //行列数

@@ -1,27 +1,27 @@
 <html>
+
 <head>
-<meta charset="utf-8" />
-<title>虹ヶ咲ゲーム部活室</title>
-<!--link rel="stylesheet" type="text/css" href="css/main.css?29"-->
-<link rel="stylesheet" type="text/css" href="minjs/main.min.css?29">
+	<meta charset="utf-8" />
+	<title>虹ヶ咲ゲーム部活室</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css?30">
 
 </head>
+
 <body οndragstart="return false;">
 
 
-<section>
+	<section>
 
-<div id="top_bar">
-</div>
+		<div id="top_bar">
+		</div>
 
 
 
-<p class="title1" id="title1">{{ msg }}</p>
-<!--p id="title2">[{{time}}]璃奈努力开发中....{{score}}</p-->
-<p id="title2">[{{time}}]璃奈ちゃん工事中....{{score}}</p>
+		<p class="title1" id="title1">{{ msg }}</p>
+		<p id="title2">[{{time}}]璃奈ちゃん工事中....{{score}}</p>
 
-<div>
-<!--form>
+		<div>
+			<!--form>
 <select id="line">
 <option value="3">3</option>
 <option value="5">5</option>
@@ -37,107 +37,88 @@
 </select>
 
 </form-->
-<input type="text" class="input" id="player_name" placeholder="请输入昵称（账号）" maxlength="256" />
+			<button id="start">start</button>
 
-<input type="text" id="player_id" class="input" placeholder="请输入密码" maxlength="256" />
-
-<button id="start">start</button>
-<button id="upload">upload</button>
-
-<!--button id="scan">scan</button>
+			<!--button id="scan">scan</button>
 <button id="drop">drop</button-->
 
-<div id="list"></div>
-<p id="c_score">
-艾玛: {{data1}}<br/>
-雪菜: {{data2}}<br/>
-小霞: {{data3}}<br/>
-果林: {{data4}}<br/>
-彼方: {{data5}}
-</p>
-</div>
+			<div id="list"></div>
+			<p id="c_score">
+				艾玛: {{data1}}<br />
+				雪菜: {{data2}}<br />
+				小霞: {{data3}}<br />
+				果林: {{data4}}<br />
+				彼方: {{data5}}
+			</p>
+		</div>
 
-<!--
+		<!--
 <div id="console">
 <p id="x">{{msg}}</p>
 <p id="y">{{msg}}</p>
 </div>
+
 游戏区域-->
 
-	<audio src="sounds/neo.mp3" preload="auto" id="background_music"></audio>
-
-<div id="play_area">
-
-<div v-html="tag" id="play_area1">
-
-</div>
-
-</div>
 
 
-<img src="textures/bottom.jpg" id="bottom" />
-</section>
+		<div id="play_area">
 
-<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+			<div v-html="tag" id="play_area1">
 
-<script src="https://cdn.staticfile.org/vue/2.6.4/vue.min.js"></script>
+			</div>
 
-<script src="minjs/fastclick.min.js"></script>
-
-<!--script src="js/main.js?29"></script>
-<script src="js/spawn.js?29"></script>
-<script src="js/control.js?29"></script>
-<script src="js/clean.js?29"></script>
-<script src="js/skill.js?29"></script-->
-
-<script src="minjs/main.min.js?29"></script>
-<script src="minjs/spawn.min.js?29"></script>
-<script src="minjs/control.min.js?29"></script>
-<script src="minjs/clean.min.js?29"></script> 
-<script src="minjs/skill.min.js?29"></script>
-
-<!--script src="js/test.js"></script-->
-
-<div style="height:0%;width:0%;overflow:hidden;">
-<img src="textures/1.png"/>
-<img src="textures/2.png"/>
-<img src="textures/3.png"/>
-<img src="textures/4.png"/>
-<img src="textures/5.png"/>
-</div>
+		</div>
 
 
-<script>
+		<img src="textures/bottom.jpg" id="bottom" />
+	</section>
 
-	$.post("list.php",{
-	},
-function(data){ 		
-    $("#list").empty();
-	$("#list").append(data);
-	            });
-	
-	
-$(function() {
-FastClick.attach(document.body);
-});
+	<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
 
-if ('addEventListener' in document) {
-	document.addEventListener('DOMContentLoaded', function() {
-		FastClick.attach(document.body);
-	}, false);
-}
+	<script src="https://cdn.staticfile.org/vue/2.6.4/vue.min.js"></script>
+
+	<script src="minjs/fastclick.min.js"></script>
+
+	<script src="js/main.js?29"></script>
+	<script src="js/spawn.js?29"></script>
+	<script src="js/control.js?29"></script>
+	<script src="js/clean.js?29"></script>
+	<script src="js/skill.js?29"></script>
 
 
-function imgdragstart(){
-return false;
-   }
-    for(i in document.images)document.images[i].οndragstart=imgdragstart;
 
-//alert(error);
-</script>
+
+	<div style="height:0%;width:0%;overflow:hidden;">
+		<img src="textures/1.png" />
+		<img src="textures/2.png" />
+		<img src="textures/3.png" />
+		<img src="textures/4.png" />
+		<img src="textures/5.png" />
+	</div>
+
+
+	<script>
+
+		$(function () {
+			FastClick.attach(document.body);
+		});
+
+		if ('addEventListener' in document) {
+			document.addEventListener('DOMContentLoaded', function () {
+				FastClick.attach(document.body);
+			}, false);
+		}
+
+
+		function imgdragstart() {
+			return false;
+		}
+		for (i in document.images) document.images[i].οndragstart = imgdragstart;
+
+
+		//alert(error);
+	</script>
 </body>
+
 </html>
-
-
-
- 
